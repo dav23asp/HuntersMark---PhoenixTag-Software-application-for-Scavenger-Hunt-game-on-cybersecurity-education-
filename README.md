@@ -1,9 +1,9 @@
 # HuntersMark---PhoenixTag-Software-application-for-Scavenger-Hunt-game-on-cybersecurity-education-
 Team Members: 
 
-David Serra
-Seamus Murray 
-Michael Bergstrom 
+    David Serra
+    Seamus Murray 
+    Michael Bergstrom 
 
 Description: 
 

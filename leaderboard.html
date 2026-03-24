@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard Test</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    table { border-collapse: collapse; width: 60%; margin-bottom: 20px; }
+    th, td { border: 1px solid black; padding: 10px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    .controls { margin-bottom: 20px; }
+    button { margin: 2px; }
+
+    /* Animation */
+    tr {
+    }
+
+    /* Add a specific class for the transition period */
+    .animating {
+      transition: transform 0.8s ease, background-color 0.8s;
+    }
+
+    .moving-up {
+      background-color: #d4edda !important; /* green */
+    }
+
+    .moving-down {
+      background-color: #f8d7da !important; /* red */
+    }
+  </style>
+</head>
+<body>
+
+<h2>Leaderboard</h2>
+
+<table id="leaderboard">
+  <thead>
+    <tr>
+      <th>Players</th>
+      <th>Score</th>
+      <th>Correct Answers</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<div class="controls" id="controls"></div>
+
+<script>
+
+/*************** DUMMY DATA (REMOVE LATER) ***************/
+let players = [
+  { name: "Player 1", score: 10, correct: 3 },
+  { name: "Player 2", score: 10, correct: 2 },
+  { name: "Player 3", score: 8, correct: 4 },
+  { name: "Player 4", score: 12, correct: 1 }
+];
+
+let previousPositions = {};
+let previousRanks = {};
+
+/*************** SORT FUNCTION ***************/
+
+function sortLeaderboard() { 
+  players.sort((a, b) => { 
+    // Logic fix: Check score first, then correct answers as tie-breaker
+    if (b.score !== a.score) { 
+      return b.score - a.score; 
+    } 
+    return b.correct - a.correct; 
+  }); 
+}
+
+/*************** RENDER FUNCTION WITH ANIMATION ***************/
+function renderLeaderboard() {
+  const tbody = document.querySelector("#leaderboard tbody");
+
+  // Store old positions + ranks
+  const rows = tbody.querySelectorAll("tr");
+  rows.forEach((row, index) => {
+    const name = row.dataset.name;
+    previousPositions[name] = row.getBoundingClientRect().top;
+    previousRanks[name] = index;
+  });
+
+  sortLeaderboard();
+  tbody.innerHTML = "";
+
+  players.forEach((player, index) => {
+    const row = document.createElement("tr");
+    row.dataset.name = player.name;
+
+    row.innerHTML = `
+      <td>${player.name}</td>
+      <td>${player.score}</td>
+      <td>${player.correct}</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  // Animate movement (FLIP technique simplified)
+  const newRows = tbody.querySelectorAll("tr");
+  
+  newRows.forEach((row, index) => {
+    
+    const name = row.dataset.name;
+    const oldTop = previousPositions[name];
+    const oldRank = previousRanks[name];
+
+    if (oldTop !== undefined) {
+      const newTop = row.getBoundingClientRect().top;
+      const delta = oldTop - newTop;
+
+      if (delta !== 0) {
+        // 1. Set the starting position (Invert)
+        row.style.transform = `translateY(${delta}px)`;
+
+        // 2. FORCE REFLOW - This is the "magic" fix that makes it smooth
+        row.offsetHeight; 
+
+        // 3. Add the transition class and determine direction
+        row.classList.add("animating");
+        if (oldRank !== undefined) {
+          if (index < oldRank) {
+            row.classList.add("moving-up");
+          } else if (index > oldRank) {
+            row.classList.add("moving-down");
+          }
+        }
+
+        // 4. Play the animation by resetting transform
+        row.style.transform = "translateY(0)";
+
+        setTimeout(() => {
+          row.classList.remove("animating", "moving-up", "moving-down");
+          row.style.transform = "";
+        }, 800);
+      }
+    }
+  });
+}
+
+/*************** TESTING CONTROLS ***************/
+function createControls() {
+  const controlsDiv = document.getElementById("controls");
+  controlsDiv.innerHTML = "";
+
+  players.forEach((player, index) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <strong>${player.name}</strong><br>
+      <button onclick="addPoint(${index})">+ Point</button>
+      <button onclick="removePoint(${index})">- Point</button>
+      <button onclick="addCorrect(${index})">+ Correct</button>
+      <button onclick="removeCorrect(${index})">- Correct</button>
+      <hr>
+    `;
+
+    controlsDiv.appendChild(div);
+  });
+}
+
+/*************** LIVE UPDATE FUNCTIONS ***************/
+function addPoint(index) {
+  players[index].score++;
+  renderLeaderboard();
+  createControls();
+}
+
+function removePoint(index) {
+  players[index].score--;
+  renderLeaderboard();
+  createControls();
+}
+
+function addCorrect(index) {
+  players[index].correct++;
+  renderLeaderboard();
+  createControls();
+}
+
+function removeCorrect(index) {
+  players[index].correct--;
+  renderLeaderboard();
+  createControls();
+}
+
+/*************** INITIAL LOAD ***************/
+renderLeaderboard();
+createControls();
+
+</script>
+
+</body>
+</html>

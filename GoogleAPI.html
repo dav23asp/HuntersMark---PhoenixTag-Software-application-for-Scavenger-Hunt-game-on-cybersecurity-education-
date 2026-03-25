@@ -1,0 +1,97 @@
+<HTML>
+    <HEAD>
+	<meta charset = "utf-8">
+	<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+    <TITLE>Google Maps API</TITLE>
+		<STYLE>
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: "Times New Roman", Times, serif;
+		}
+		
+		body{
+			min-height: 100vh;
+			background: #f4f6f8;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding-top: 24px;
+		}
+		
+		.map-wrapper{
+			width: min(92vw, 900px);
+			display: flex;
+			justify-content: center;
+		}
+		
+		.map-card{
+			width: 100%;
+			max-width: 800px;
+			background: #ffffff;
+			border-radius: 14px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			padding: 14px
+		}
+		
+		#map{
+			width: 100%;
+			height: 420px;
+			border-radius: 10px;
+			overflow: hidden;
+		}
+		
+		.error{
+			color: #b00020;
+			text-align: center;
+			margin-top: 12px;
+			font-size: 0.95rem;
+		}
+		</STYLE>
+    </HEAD>
+	<BODY>
+		<div class = "map-wrapper">
+			<div class = "map-card">
+				<div id = "map"> </div>
+				<p id = "error-message" class = "error"> </p>
+			</div>
+		</div>
+		<SCRIPT>
+			const API_Key = "AIzaSyAdtYxLv1VmFvZKJ69pAszSyTSIbBkG8Zs"
+			
+			async function GoogleMaps(){
+				return new Promise((resolve, reject) => {
+				if(window.google && window.google.maps){
+					resolve();
+					return;
+				}
+					const API = document.createElement("script");
+					API.src = `https://maps.googleapis.com/maps/api/js?key=${API_Key}&callback=Map_API`;
+					API.async = true;
+					API.defer = true;
+					API.onerror = () => reject(new Error("Failed to Load."));
+					document.head.appendChild(API);
+				});
+			}
+		
+			function Map_API(){
+				const location = {lat: 28.1482, lng: -81.8485}
+				new google.maps.Map(document.getElementById("map"), {
+					center: location,
+					zoom: 16,
+					zoomControl: true,
+					mapTypeControl: false,
+					streetViewControl: false,
+					fullscreenControl: false
+				});
+			}
+			window.Map_API = Map_API;
+			
+			GoogleMaps().catch((error) => {
+				document.getElementById("error-message").textContent = "Failed to Load. Please check your Connection";
+				console.error(error);
+			});
+		</SCRIPT>
+	</BODY>
+</HTML>

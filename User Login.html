@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<header>Log in</header><br>
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <script>
+        class User {
+            constructor(username, password) {
+                this.username = username;
+                this.password = password;
+            }
+
+            login(username, password) {
+                if(this.username == username && this.password == password) {
+                    //do logic to go to next page or something can't do this rn
+                }
+                else {
+                    //output on html saying incorrect password
+                }
+            }
+        }
+
+
+    </script>
+</head>
+<body>
+<script>
+</script>
+<label for="username">username:</label>
+<input type="text" id="username" name="username"><br><br>
+<label for="password">password:</label>
+<input type="text" id="password" name="password"><br><br>
+<button onclick="login()">Login</button>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard Test</title>
+  <style>
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: "Times New Roman", Times, serif;
+		}
+		
+		body{
+			min-height: 100vh;
+			background: #f4f6f8;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding-top: 24px;
+		}
+		
+		.wrapper{
+			width: min(95vw, 1200px);
+			display: flex;
+			justify-content: center;
+		}
+		
+		.card{
+			width: 100%;
+			max-width: 1100px;
+			background: #ffffff;
+			border-radius: 14px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			padding: 14px;
+			position: relative;
+		}
+
+		.hamburgerMenu{
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-bottom: 12px;
+		}
+
+		.menuButton{
+			width: 46px;
+			height: 46px;
+			border: 1px solid #000;
+			background: #ffffff;
+			cursor: pointer;
+			border-radius: 8px;
+			font-size: 24px;
+		}
+
+		.menuBody{
+			position: absolute;
+			top: 66px;
+			right: 14px;
+			width: 220px;
+			background: #ffffff;
+			border: 1px solid #000;
+			border-radius: 8px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+			display: none;
+			z-index: 10;
+			overflow: hidden;
+		}
+
+		.menuBody button{
+			width: 100%;
+			padding: 12px;
+			border: none;
+			border-bottom: 1px solid #d9d9d9;
+			background: #ffffff;
+			text-align: left;
+			cursor: pointer;
+			font-size: 16px;
+			font-family: "Times New Roman", Times, serif;
+		}
+
+		.menuBody button:last-child{
+			border-bottom: none;
+		}
+
+		.menuBody button:hover{
+			background: #f2f2f2;
+		}
+
+		.pageTitle{
+			font-size: 32px;
+			text-align: center;
+			margin-bottom: 24px;
+		}
+
+		#leaderboard{
+	        width: 100%;
+	        border-collapse: collapse;
+	        margin-bottom: 20px;
+	        background: #fafafa;
+        }
+
+        #leaderboard th,
+        #leaderboard td{
+	        border: 1px solid #000;
+	        padding: 12px;
+	        text-align: center;
+	        font-size: 18px;
+        }
+
+        #leaderboard th{
+	        background: #f2f2f2;
+        }
+
+		.pageControls{
+            border: 1px solid #000;
+	        background: #fafafa;
+	        border-radius: 10px;
+	        padding: 16px;
+		}
+
+        .pageControls button{
+            margin: 2px;
+	        padding: 8px 12px;
+	        border: 1px solid #000;
+	        background: #ffffff;
+	        border-radius: 6px;
+	        cursor: pointer;
+	        font-size: 16px;
+        }
+
+		.pageControls button:hover{
+			background: #f2f2f2;
+		}
+      
+        .animating{
+            transition: transform 0.8s ease, background-color 0.8s;
+        }
+      
+        .moving-up{
+            background-color: #d4edda !important;
+        }
+      
+        .moving-down{
+            background-color: #f8d7da !important;
+        }
+	</style>
+</head>
+<body>
+
+<div class = "wrapper">
+		<div class = "card">
+
+			<div class = "hamburgerMenu">
+				<button class = "menuButton" onclick = "hamburger()">☰</button>
+			</div>
+
+			<div id = "menuBody" class = "menuBody">
+				<button onclick = "Map()">Map</button>
+                <button onclick = "LogIn()">Log Out</button>
+			</div>
+
+			<h1 class = "pageTitle">Leaderboard</h1>
+
+			<table id = "leaderboard">
+				<thead>
+					<tr>
+						<th>Players</th>
+						<th>Score</th>
+						<th>Correct Answers</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+
+			<div class = "pageControls" id = "controls"></div>
+
+		</div>
+	</div>
+
+<script>
+
+/*************** DUMMY DATA (REMOVE LATER) ***************/
+let players = [
+  { name: "Player 1", score: 10, correct: 3 },
+  { name: "Player 2", score: 10, correct: 2 },
+  { name: "Player 3", score: 8, correct: 4 },
+  { name: "Player 4", score: 12, correct: 1 }
+];
+
+let previousPositions = {};
+let previousRanks = {};
+
+function hamburger(){
+	const menu = document.getElementById("menuBody");
+	if(menu.style.display == "block"){
+		menu.style.display = "none";
+	}else{
+		menu.style.display = "block";
+	}
+}
+			
+function LogIn(){
+	window.location.href = "LogIn.html";
+}
+			
+function Map(){
+	window.location.href = "GoogleAPI.html"
+}
+
+/*************** SORT FUNCTION ***************/
+
+function sortLeaderboard() { 
+  players.sort((a, b) => { 
+    // Logic fix: Check score first, then correct answers as tie-breaker
+    if (b.score !== a.score) { 
+      return b.score - a.score; 
+    } 
+    return b.correct - a.correct; 
+  }); 
+}
+
+/*************** RENDER FUNCTION WITH ANIMATION ***************/
+function renderLeaderboard() {
+  const tbody = document.querySelector("#leaderboard tbody");
+
+  // Store old positions + ranks
+  const rows = tbody.querySelectorAll("tr");
+  rows.forEach((row, index) => {
+    const name = row.dataset.name;
+    previousPositions[name] = row.getBoundingClientRect().top;
+    previousRanks[name] = index;
+  });
+
+  sortLeaderboard();
+  tbody.innerHTML = "";
+
+  players.forEach((player, index) => {
+    const row = document.createElement("tr");
+    row.dataset.name = player.name;
+
+    row.innerHTML = `
+      <td>${player.name}</td>
+      <td>${player.score}</td>
+      <td>${player.correct}</td>
+    `;
+
+    tbody.appendChild(row);
+  });
+
+  // Animate movement (FLIP technique simplified)
+  const newRows = tbody.querySelectorAll("tr");
+  
+  newRows.forEach((row, index) => {
+    
+    const name = row.dataset.name;
+    const oldTop = previousPositions[name];
+    const oldRank = previousRanks[name];
+
+    if (oldTop !== undefined) {
+      const newTop = row.getBoundingClientRect().top;
+      const delta = oldTop - newTop;
+
+      if (delta !== 0) {
+        // 1. Set the starting position (Invert)
+        row.style.transform = `translateY(${delta}px)`;
+
+        // 2. FORCE REFLOW - This is the "magic" fix that makes it smooth
+        row.offsetHeight; 
+
+        // 3. Add the transition class and determine direction
+        row.classList.add("animating");
+        if (oldRank !== undefined) {
+          if (index < oldRank) {
+            row.classList.add("moving-up");
+          } else if (index > oldRank) {
+            row.classList.add("moving-down");
+          }
+        }
+
+        // 4. Play the animation by resetting transform
+        row.style.transform = "translateY(0)";
+
+        setTimeout(() => {
+          row.classList.remove("animating", "moving-up", "moving-down");
+          row.style.transform = "";
+        }, 800);
+      }
+    }
+  });
+}
+
+/*************** TESTING CONTROLS ***************/
+function createControls() {
+  const controlsDiv = document.getElementById("controls");
+  controlsDiv.innerHTML = "";
+
+  players.forEach((player, index) => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <strong>${player.name}</strong><br>
+      <button onclick="addPoint(${index})">+ Point</button>
+      <button onclick="removePoint(${index})">- Point</button>
+      <button onclick="addCorrect(${index})">+ Correct</button>
+      <button onclick="removeCorrect(${index})">- Correct</button>
+      <hr>
+    `;
+
+    controlsDiv.appendChild(div);
+  });
+}
+
+/*************** LIVE UPDATE FUNCTIONS ***************/
+function addPoint(index) {
+  players[index].score++;
+  renderLeaderboard();
+  createControls();
+}
+
+function removePoint(index) {
+  players[index].score--;
+  renderLeaderboard();
+  createControls();
+}
+
+function addCorrect(index) {
+  players[index].correct++;
+  renderLeaderboard();
+  createControls();
+}
+
+function removeCorrect(index) {
+  players[index].correct--;
+  renderLeaderboard();
+  createControls();
+}
+
+/*************** INITIAL LOAD ***************/
+renderLeaderboard();
+createControls();
+
+</script>
+
+</body>
+</html>

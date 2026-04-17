@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+  <script src="leaderboard.js" defer></script>
+</head>
+<!-- loads the leaderboard on load, that way it is saved -->
+<body onload="initLeaderBoard(gameState.players)">
+
+<div id="leaderboard-container" style="display:none;"></div>
+
+<script>
+
+    let gameState = {
+
+        players: [
+            { name: "Test", score: 0, correct: 0 },
+            { name: "Test1", score: 0, correct: 0 },
+
+    ],
+
+
+        TotalPoints: 0,
+        TotalCorrect: 0
+
+    };
+
+
+    const container = document.getElementById("leaderboard-container");
+    window.gameState = gameState;
+
+    fetch("leaderboard.html").then(res => res.text()).then(html =>
+    {
+              container.innerHTML = html;
+              container.style.display = "block";
+
+              initLeaderBoard(gameState.players);
+            });
+    fetch("questions.txt");
+
+</script>
+
+</body>
+</html>

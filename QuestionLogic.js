@@ -6,9 +6,20 @@ function loadQuestions() {
     fetch("questions.json")
         .then(res => res.json())
         .then(data => {
-            questions = data;
+            questions = shuffleQuestions(data);
+            currentIndex = 0;
             showQuestion();
         });
+}
+
+function shuffleQuestions(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+
+    }
+    return array;
 }
 
 function hamburger(menuId){
@@ -69,7 +80,7 @@ function answer(userAnswer) {
 
     if (correct) {
 
-        player.score += 1;
+        player.score += Math.floor(Math.random()*5+1);
         player.correct += 1;
 
         // done for global tracking

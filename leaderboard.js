@@ -13,6 +13,21 @@ function hamburger(menuId){
     }
 }
 
+document.addEventListener("click", function (event) {
+    const openMenus = document.querySelectorAll(".menuBody");
+
+    openMenus.forEach(menu => {
+        if (menu.style.display !== "block") return;
+
+        const isClickInsideMenu = menu.contains(event.target);
+        const isClickOnButton = event.target.closest(".menuButton");
+
+        if (!isClickInsideMenu && !isClickOnButton) {
+            menu.style.display = "none";
+        }
+    });
+});
+
 function MainGame(){
     document.getElementById("leaderboard-container").style.display = "none";
     document.getElementById("question-root").style.display = "block";

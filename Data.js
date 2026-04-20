@@ -1,7 +1,8 @@
 class User {
-    constructor(username, password) {
+    constructor(username, password, id) {
         this.username = username;
         this.password = password;
+        this.id = id;
         this.score = 0;
         this.correctAns = 0;
     }
@@ -19,4 +20,3 @@ class User {
         //go to login page in some way
     }
 }
-

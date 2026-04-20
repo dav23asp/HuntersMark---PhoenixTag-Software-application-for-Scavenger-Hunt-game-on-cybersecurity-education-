@@ -1,0 +1,74 @@
+<HTML>
+    <HEAD>
+    <TITLE>You Win!</TITLE>
+		<style>
+			*{
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: "Times New Roman", Times, serif;
+			}
+
+			body{
+				min-height: 100vh;
+				background: #f4f6f8;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 24px;
+			}
+
+			.wrapper{
+				width: min(95vw, 1200px);
+				display: flex;
+				justify-content: center;
+			}
+
+			.card{
+				width: 100%;
+				max-width: 800px;
+				background: #ffffff;
+				border-radius: 14px;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+				padding: 50px 30px;
+				text-align: center;
+			}
+
+			.text{
+				font-size: 48px;
+				margin-bottom: 10px;
+			}
+
+			.sub{
+				font-size: 28px;
+				margin-bottom: 30px;
+				color: #333;
+			}
+
+			.button{
+				padding: 12px 24px;
+				font-size: 18px;
+				border: 1px solid #000;
+				border-radius: 8px;
+				background: #ffffff;
+				cursor: pointer;
+				transition: all 0.2s ease;
+			}
+
+			.button:hover{
+				background: #f2f2f2;
+				transform: scale(1.05);
+			}
+		</style>
+    </HEAD>
+	<BODY>
+		<div class = "wrapper">
+			<div class = "card">
+				<H1 class = "text">Congratulations!</H1>
+				<H1 class = "sub">Claim Your Prize!</H1>
+				
+				<button class = "button">Claim</button>
+			</div>
+		</div>
+	</BODY>
+</HTML>

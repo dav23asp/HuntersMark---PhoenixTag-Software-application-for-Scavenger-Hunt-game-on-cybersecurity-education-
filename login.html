@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>PhoenixTag Login</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="Data.js"></script>
+
     <style>
         *{
             box-sizing: border-box;
@@ -94,27 +96,32 @@
     </style>
 </head>
 <body>
-<div class = "wrapper">
-    <div class = "card">
 
-        <h1 class = "pageTitle">Log In</h1>
 
-        <div class = "display">
-            <div class = "input">
-                <label for = "username">Username</label>
-                <input type = "text" id = "username" name = "username">
+<form action="MainFile.html" method="POST">
+    <div class = "wrapper">
+        <div class = "card">
+
+            <h1 class = "pageTitle">Log In</h1>
+
+            <div class = "display">
+                <div class = "input">
+                    <label for = "username">Username</label>
+                    <input type = "text" id = "username" name = "username">
+                </div>
+
+                <div class = "input">
+                    <label for = "password">Password</label>
+                    <input type = "text" id = "password" name = "password">
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LcjfsMsAAAAAA6rCld-Uy5ck_kBXPlQKNFQjKMq"></div>
+
+                <button type= "submit" class = "loginButton" onclick = "m.login()">Login</button>
             </div>
 
-            <div class = "input">
-                <label for = "password">Password</label>
-                <input type = "text" id = "password" name = "password">
-            </div>
-
-            <button class = "loginButton" onclick = "m.login()">Login</button>
         </div>
-
     </div>
-</div>
 
+</form>
 </body>
 </html>

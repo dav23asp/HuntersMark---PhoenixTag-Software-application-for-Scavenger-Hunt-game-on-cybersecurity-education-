@@ -290,7 +290,11 @@
         background-color: #f8d7da !important; /* red */
     }
 </style>
-
+<script>
+    function goToLogin() {
+        window.location.replace("login.html");
+    }
+</script>
 <div class="wrapper">
     <div class="card">
 
@@ -301,7 +305,7 @@
         <div id="questions-menuBody" class="menuBody">
             <button onclick="Map()">Map</button>
             <button onclick="showLeaderboard()">Leaderboard</button>
-            <button onclick="LogIn()">Log Out</button>
+            <button onclick="goToLogin()">Log Out</button>
         </div>
 
         <h1 class="pageTitle">Welcome</h1>

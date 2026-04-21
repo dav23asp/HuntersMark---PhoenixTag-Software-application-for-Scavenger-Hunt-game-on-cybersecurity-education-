@@ -28,10 +28,12 @@ class main {
         this.userCount++;
         for(let i = 0; i < this.userCount; i++) {
             if(username == this.users[i].username && password == this.users[i].password){
-                window.location.replace("MainFile.html");
+                window.location.replace("welcomePage.html");
             }
         }
     }
+
+
 }
 
 m = new main();

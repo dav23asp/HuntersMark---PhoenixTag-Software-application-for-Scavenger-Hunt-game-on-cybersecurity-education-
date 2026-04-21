@@ -2,9 +2,363 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Welcome</title>
+    <script src="QuestionLogic.js" defer></script>
+    <script src="leaderboard.js" defer></script>
+    <script src="welcomePage.js" defer></script>
 </head>
+<!-- loads the leaderboard on load, that way it is saved -->
 <body>
+<style>
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Times New Roman", Times, serif;
+    }
+
+    body{
+        min-height: 100vh;
+        background: #f4f6f8;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 24px;
+    }
+
+    .wrapper{
+        width: min(95vw, 1200px);
+        display: flex;
+        justify-content: center;
+    }
+
+    .card{
+        width: 100%;
+        max-width: 1100px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        padding: 14px;
+        position: relative;
+    }
+
+    .hamburgerMenu{
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 12px;
+    }
+
+    .menuButton{
+        width: 46px;
+        height: 46px;
+        border: 1px solid #000;
+        background: #ffffff;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 24px;
+    }
+
+    .menuBody{
+        position: absolute;
+        top: 66px;
+        right: 14px;
+        width: 220px;
+        background: #ffffff;
+        border: 1px solid #000;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        display: none;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .menuBody button{
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-bottom: 1px solid #d9d9d9;
+        background: #ffffff;
+        text-align: left;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .menuBody button:hover{
+        background: #f2f2f2;
+    }
+
+    .pageTitle{
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    #question-container{
+        text-align: center;
+        font-size: 20px;
+    }
+
+    #question-container button{
+        margin: 10px;
+        padding: 10px 16px;
+        font-size: 16px;
+        border: 1px solid #000;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+</style>
+
+
+<style>
+
+    body { font-family: Arial; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+    th, td { border: 1px solid black; padding: 10px; text-align: center; }
+    th { background-color: #f2f2f2; }
+    .controls { margin-bottom: 20px; }
+    button { margin: 2px; }
+
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Times New Roman", Times, serif;
+    }
+
+    body{
+        min-height: 20vh;
+        background: #f4f6f8;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 24px;
+    }
+
+    .wrapper{
+        width: min(95vw, 1200px);
+        display: flex;
+        justify-content: center;
+    }
+
+    .card{
+        width: 100%;
+        max-width: 1100px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        padding: 14px;
+        position: relative;
+    }
+
+    .hamburgerMenu{
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .menuButton{
+        width: 46px;
+        height: 46px;
+        border: 1px solid #000;
+        background: #ffffff;
+        cursor: pointer;
+        border-radius: 8px;
+        font-size: 24px;
+    }
+
+    .menuBody{
+        position: absolute;
+        top: 66px;
+        right: 14px;
+        width: 220px;
+        background: #ffffff;
+        border: 1px solid #000;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        display: none;
+        z-index: 10;
+        overflow: hidden;
+    }
+
+    .menuBody button{
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-bottom: 1px solid #d9d9d9;
+        background: #ffffff;
+        text-align: left;
+        cursor: pointer;
+        font-size: 16px;
+        font-family: "Times New Roman", Times, serif;
+    }
+
+    .menuBody button:last-child{
+        border-bottom: none;
+    }
+
+    .menuBody button:hover{
+        background: #f2f2f2;
+    }
+
+    .pageTitle{
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    #leaderboard{
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background: #fafafa;
+    }
+
+    #leaderboard th,
+    #leaderboard td{
+        border: 1px solid #000;
+        padding: 12px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    #leaderboard th{
+        background: #f2f2f2;
+    }
+
+    .pageControls{
+        border: 1px solid #000;
+        background: #fafafa;
+        border-radius: 10px;
+        padding: 16px;
+    }
+
+    .pageControls button{
+        margin: 2px;
+        padding: 8px 12px;
+        border: 1px solid #000;
+        background: #ffffff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .pageControls button:hover{
+        background: #f2f2f2;
+    }
+
+    .animating{
+        transition: transform 0.8s ease, background-color 0.8s;
+    }
+
+    .moving-up{
+        background-color: #d4edda !important;
+    }
+
+    .moving-down{
+        background-color: #f8d7da !important;
+    }
+
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    h2 {
+
+        text-align: center;
+
+    }
+
+    /* Animation */
+    tr {
+    }
+
+    /* Add a specific class for the transition period */
+    .animating {
+        transition: transform 0.8s ease, background-color 0.8s;
+    }
+
+    .moving-up {
+        background-color: #d4edda !important; /* green */
+    }
+
+    .moving-down {
+        background-color: #f8d7da !important; /* red */
+    }
+</style>
+
+<div class="wrapper">
+    <div class="card">
+
+        <div class="hamburgerMenu">
+            <button class ="menuButton" onclick = "hamburger('questions-menuBody')">&#9776;</button>
+        </div>
+
+        <div id="questions-menuBody" class="menuBody">
+            <button onclick="Map()">Map</button>
+            <button onclick="showLeaderboard()">Leaderboard</button>
+            <button onclick="LogIn()">Log Out</button>
+        </div>
+
+        <h1 class="pageTitle">Welcome</h1>
+        <div id="leaderboard-container" style="display:none;"></div>
+    </div>
+</div>
+
+<script>
+
+
+
+
+    let gameState = {
+
+        players: [
+            { name: "Test", score: 0, correct: 0 },
+            { name: "Test1", score: 0, correct: 0 },
+
+        ],
+
+
+        TotalPoints: 0,
+        TotalCorrect: 0
+
+    };
+
+
+    const leaderboardContainer = document.getElementById("leaderboard-container");
+    const questionContainer = document.getElementById("question-root");
+    window.gameState = gameState;
+
+
+
+
+    fetch("QuestionLogic.html").then(res => res.text()).then(html =>
+    {
+        questionContainer.innerHTML = html;
+        questionContainer.style.display = "block";
+
+
+        loadQuestions();
+    });
+
+
+    fetch("leaderboard.html").then(res => res.text()).then(html =>
+    {
+        leaderboardContainer.innerHTML = html;
+        leaderboardContainer.style.display = "none";
+
+        initLeaderBoard(gameState.players);
+
+    });
+
+
+
+
+</script>
 
 </body>
 </html>

@@ -1,0 +1,23 @@
+[
+  {
+    "id": 0,
+    "username": "mberg",
+    "password": "12345678",
+    "score": 0,
+    "correctAns": 0
+  },
+  {
+    "id": 0,
+    "username": "dserr",
+    "password": "87654321",
+    "score": 0,
+    "correctAns": 0
+  },
+  {
+    "id": 0,
+    "username": "smurr",
+    "password": "01234567",
+    "score": 0,
+    "correctAns": 0
+  }
+]

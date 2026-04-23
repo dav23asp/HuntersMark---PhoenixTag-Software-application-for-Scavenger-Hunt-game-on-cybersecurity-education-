@@ -1,4 +1,3 @@
-
   <style>
 
     body { font-family: Arial; padding: 20px; }
@@ -179,12 +178,11 @@
     }
   </style>
 
-
-
-
-
-
-
+  <script>
+    function goToLogin() {
+      window.location.replace("login.html");
+    }
+  </script>
 
 
   <div class = "wrapper">
@@ -197,7 +195,7 @@
       <div id = "leaderboard-menuBody" class = "menuBody">
         <button onclick = "Map()">Map</button>
         <button onclick = "MainGame()">Main Game</button>
-        <button onclick = "LogIn()">Log Out</button>
+        <button onclick = "goToLogin()">Log Out</button>
       </div>
 
       <h1 class = "pageTitle">Leaderboard</h1>

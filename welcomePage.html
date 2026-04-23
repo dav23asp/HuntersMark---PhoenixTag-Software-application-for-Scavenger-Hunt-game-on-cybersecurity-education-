@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <title>Welcome</title>
     <script src="QuestionLogic.js" defer></script>
     <script src="leaderboard.js" defer></script>
+    <script src="welcomePage.js" defer></script>
 </head>
 <!-- loads the leaderboard on load, that way it is saved -->
-<body onload="initLeaderBoard(gameState.players); loadQuestions()">
+<body>
 <style>
     *{
         box-sizing: border-box;
@@ -107,9 +108,6 @@
         cursor: pointer;
     }
 
-    #question-container button:hover{
-        background: #f2f2f2;
-    }
 </style>
 
 
@@ -292,16 +290,32 @@
         background-color: #f8d7da !important; /* red */
     }
 </style>
-
-<div id="question-root"></div>
-<div id="leaderboard-container" style="display:none;"></div>
-
-
 <script>
-
     function goToLogin() {
         window.location.replace("login.html");
     }
+</script>
+<div class="wrapper">
+    <div class="card">
+
+        <div class="hamburgerMenu">
+            <button class ="menuButton" onclick = "hamburger('questions-menuBody')">&#9776;</button>
+        </div>
+
+        <div id="questions-menuBody" class="menuBody">
+            <button onclick="Map()">Map</button>
+            <button onclick="showLeaderboard()">Leaderboard</button>
+            <button onclick="goToLogin()">Log Out</button>
+        </div>
+
+        <h1 class="pageTitle">Welcome</h1>
+        <div id="leaderboard-container" style="display:none;"></div>
+    </div>
+</div>
+
+<script>
+
+
 
 
     let gameState = {
@@ -310,7 +324,7 @@
             { name: "Test", score: 0, correct: 0 },
             { name: "Test1", score: 0, correct: 0 },
 
-    ],
+        ],
 
 
         TotalPoints: 0,

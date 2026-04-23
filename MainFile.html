@@ -293,8 +293,9 @@
     }
 </style>
 
-<div id="question-root"></div>
+<div id="question-root" style="display:none;"></div>
 <div id="leaderboard-container" style="display:none;"></div>
+<div id="welcome-container"></div>
 
 
 <script>
@@ -321,6 +322,7 @@
 
     const leaderboardContainer = document.getElementById("leaderboard-container");
     const questionContainer = document.getElementById("question-root");
+    const welcomeContainer = document.getElementById("welcome-container");
     window.gameState = gameState;
 
 
@@ -344,6 +346,8 @@
         initLeaderBoard(gameState.players);
 
     });
+
+
 
 
 

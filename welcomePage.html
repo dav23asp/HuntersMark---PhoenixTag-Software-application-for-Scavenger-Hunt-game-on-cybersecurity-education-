@@ -93,24 +93,8 @@
         margin-bottom: 24px;
     }
 
-    #question-container{
-        text-align: center;
-        font-size: 20px;
-    }
-
-    #question-container button{
-        margin: 10px;
-        padding: 10px 16px;
-        font-size: 16px;
-        border: 1px solid #000;
-        background: #fff;
-        border-radius: 6px;
-        cursor: pointer;
-    }
 
 </style>
-
-
 <style>
 
     body { font-family: Arial; padding: 20px; }
@@ -290,6 +274,8 @@
         background-color: #f8d7da !important; /* red */
     }
 </style>
+
+
 <script>
     function goToLogin() {
         window.location.replace("login.html");
@@ -297,20 +283,23 @@
 </script>
 <div class="wrapper">
     <div class="card">
+        <div id="welcome-container" style="display:block;">
 
-        <div class="hamburgerMenu">
-            <button class ="menuButton" onclick = "hamburger('questions-menuBody')">&#9776;</button>
+            <div class="hamburgerMenu">
+                <button class ="menuButton" onclick = "hamburger('questions-menuBody')">&#9776;</button>
+            </div>
+
+            <div id="questions-menuBody" class="menuBody">
+                <button onclick="Map()">Map</button>
+                <button onclick="showLeaderboard()">Leaderboard</button>
+                <button onclick="goToLogin()">Log Out</button>
+
+            </div>
+            <h1 class="pageTitle">Welcome</h1>
         </div>
-
-        <div id="questions-menuBody" class="menuBody">
-            <button onclick="Map()">Map</button>
-            <button onclick="showLeaderboard()">Leaderboard</button>
-            <button onclick="goToLogin()">Log Out</button>
-        </div>
-
-        <h1 class="pageTitle">Welcome</h1>
-        <div id="leaderboard-container" style="display:none;"></div>
     </div>
+    <div id="leaderboard-container" style="display:none;"></div>
+
 </div>
 
 <script>
@@ -334,20 +323,12 @@
 
 
     const leaderboardContainer = document.getElementById("leaderboard-container");
-    const questionContainer = document.getElementById("question-root");
     window.gameState = gameState;
 
 
 
 
-    fetch("QuestionLogic.html").then(res => res.text()).then(html =>
-    {
-        questionContainer.innerHTML = html;
-        questionContainer.style.display = "block";
 
-
-        loadQuestions();
-    });
 
 
     fetch("leaderboard.html").then(res => res.text()).then(html =>

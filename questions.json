@@ -1,0 +1,57 @@
+﻿[
+ {
+   "type": "tf",
+   "question": "Address Space Layout Randomization (ASLR) prevents buffer overflows from occurring.",
+   "answer": false
+ },
+ {
+   "type": "tf",
+   "question": "A \"Black Box\" security test is performed by an auditor who has full access to the source code and internal design documents.",
+   "answer": false
+ },
+ {
+   "type": "tf",
+   "question": "Input validation should be performed on the client-side only to maximize performance and security.",
+   "answer": false
+ },
+{
+   "type": "tf",
+   "question": "In a classic stack-based buffer overflow, the attacker's goal is often to overwrite the saved Return Address to redirect execution.",
+   "answer": true
+ },
+{
+   "type": "tf",
+   "question": "Security should be treated as a \"bolt-on\" feature added during the final deployment phase of software development.",
+   "answer": false
+ },
+ {
+   "type": "mc",
+   "question": "Which stage of the Software Development Life Cycle (SDLC) is the most cost-effective for identifying and fixing security vulnerabilities?",
+   "options": ["A)Implementation (Coding)", "B) Requirements & Design", "C) Testing & QA", "D) Maintenance"],
+   "answer": 2
+ },
+ {
+   "type": "mc",
+   "question": "In C programming, which of the following functions is considered \"unsafe\" because it does not check the bounds of the destination buffer?",
+   "options": ["A) fgets()", "B) strncpy()", "C) gets()", "D) snprintf()"],
+   "answer": 3
+ },
+{
+   "type": "mc",
+   "question": "What is the primary purpose of a \"Canary\" in the context of stack protection?",
+   "options": ["A) To encrypt the data stored on the stack.", "B)  To detect a buffer overflow before a function returns.", "C)To speed up the instruction pipeline.", "D)To manage heap allocation limits."],
+   "answer": 2
+ },
+{
+   "type": "mc",
+   "question": "The \"Principle of Least Privilege\" (PoLP) suggests that:",
+   "options": ["A) All users should have administrative access for efficiency.", "B) Users should only have the minimum access necessary to perform their job functions.", "C)Security should rely on the secrecy of the design (Security by Obscurity).", "D)Data should be encrypted only when it is being transmitted."],
+   "answer": 2
+ },
+{
+   "type": "mc",
+   "question": "Which of the following is a hardware-level defense against executing malicious code stored in the data segment or stack?",
+   "options": ["A) ASLR (Address Space Layout Randomization)", "B) DEP/NX (Data Execution Prevention / No-Execute bit)", "C) Input Validation", "D) Parameterized Queries"],
+   "answer": 2
+ }
+]

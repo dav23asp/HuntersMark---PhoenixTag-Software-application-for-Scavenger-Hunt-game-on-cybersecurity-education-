@@ -1,0 +1,25 @@
+<body onload="loadQuestions()">
+
+<div class="wrapper">
+  <div class="card">
+
+    <!-- Hamburger -->
+    <div class="hamburgerMenu">
+      <button class ="menuButton" onclick = "hamburger('questions-menuBody')">&#9776;</button>
+    </div>
+
+    <!-- Dropdown -->
+    <div id="questions-menuBody" class="menuBody">
+      <button onclick="Map()">Map</button>
+      <button onclick="showLeaderboard()">Leaderboard</button>
+      <button onclick="LogIn()">Log Out</button>
+    </div>
+
+    <!-- Title -->
+    <h1 class="pageTitle">Questions</h1>
+
+    <div id="question-content"></div>
+
+  </div>
+</div>
+

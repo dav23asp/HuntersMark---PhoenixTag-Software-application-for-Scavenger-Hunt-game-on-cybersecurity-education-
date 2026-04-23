@@ -1,5 +1,6 @@
 
   <style>
+
     body { font-family: Arial; padding: 20px; }
     table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
     th, td { border: 1px solid black; padding: 10px; text-align: center; }
@@ -7,6 +8,146 @@
     .controls { margin-bottom: 20px; }
     button { margin: 2px; }
 
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    body{
+      min-height: 20vh;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 24px;
+    }
+
+    .wrapper{
+      width: min(95vw, 1200px);
+      display: flex;
+      justify-content: center;
+    }
+
+    .card{
+      width: 100%;
+      max-width: 1100px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      padding: 14px;
+      position: relative;
+    }
+
+    .hamburgerMenu{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .menuButton{
+      width: 46px;
+      height: 46px;
+      border: 1px solid #000;
+      background: #ffffff;
+      cursor: pointer;
+      border-radius: 8px;
+      font-size: 24px;
+    }
+
+    .menuBody{
+      position: absolute;
+      top: 66px;
+      right: 14px;
+      width: 220px;
+      background: #ffffff;
+      border: 1px solid #000;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+      display: none;
+      z-index: 10;
+      overflow: hidden;
+    }
+
+    .menuBody button{
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-bottom: 1px solid #d9d9d9;
+      background: #ffffff;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+      font-family: "Times New Roman", Times, serif;
+    }
+
+    .menuBody button:last-child{
+      border-bottom: none;
+    }
+
+    .menuBody button:hover{
+      background: #f2f2f2;
+    }
+
+    .pageTitle{
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    #leaderboard{
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      background: #fafafa;
+    }
+
+    #leaderboard th,
+    #leaderboard td{
+      border: 1px solid #000;
+      padding: 12px;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    #leaderboard th{
+      background: #f2f2f2;
+    }
+
+    .pageControls{
+      border: 1px solid #000;
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .pageControls button{
+      margin: 2px;
+      padding: 8px 12px;
+      border: 1px solid #000;
+      background: #ffffff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .pageControls button:hover{
+      background: #f2f2f2;
+    }
+
+    .animating{
+      transition: transform 0.8s ease, background-color 0.8s;
+    }
+
+    .moving-up{
+      background-color: #d4edda !important;
+    }
+
+    .moving-down{
+      background-color: #f8d7da !important;
+    }
 
 
     body {
@@ -20,40 +161,62 @@
 
     }
 
-    /* animation */
+    /* Animation */
     tr {
     }
 
-    /* add a specific class for the transition period */
+    /* Add a specific class for the transition period */
     .animating {
       transition: transform 0.8s ease, background-color 0.8s;
     }
 
     .moving-up {
-      background-color: #d4edda !important; /* green; meaning, promoted */
+      background-color: #d4edda !important; /* green */
     }
 
     .moving-down {
-      background-color: #f8d7da !important; /* red; meaning, it has been demoted */
+      background-color: #f8d7da !important; /* red */
     }
   </style>
 
 
 
-<h2>Leaderboard</h2>
 
-<table id="leaderboard">
-  <thead>
-    <tr>
-      <th>Players</th>
-      <th>Score</th>
-      <th>Correct Answers</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
 
-<div class="controls" id="controls"></div>
+
+
+
+
+  <div class = "wrapper">
+    <div class = "card">
+
+      <div class = "hamburgerMenu">
+        <button class ="menuButton" onclick = "hamburger('leaderboard-menuBody')">&#9776;</button>
+      </div>
+
+      <div id = "leaderboard-menuBody" class = "menuBody">
+        <button onclick = "Map()">Map</button>
+        <button onclick = "MainGame()">Main Game</button>
+        <button onclick = "LogIn()">Log Out</button>
+      </div>
+
+      <h1 class = "pageTitle">Leaderboard</h1>
+
+      <table id = "leaderboard">
+        <thead>
+        <tr>
+          <th>Players</th>
+          <th>Score</th>
+          <th>Correct Answers</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class = "pageControls" id = "controls"></div>
+
+    </div>
+  </div>
 
 
 

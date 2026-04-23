@@ -3,7 +3,36 @@
 let previousPositions = {};
 let previousRanks = {};
 
-/*************** SORT ***************/
+function hamburger(menuId){
+    const menu = document.getElementById(menuId);
+
+    if(menu.style.display === "block"){
+        menu.style.display = "none";
+    } else {
+        menu.style.display = "block";
+    }
+}
+
+document.addEventListener("click", function (event) {
+    const openMenus = document.querySelectorAll(".menuBody");
+
+    openMenus.forEach(menu => {
+        if (menu.style.display !== "block") return;
+
+        const isClickInsideMenu = menu.contains(event.target);
+        const isClickOnButton = event.target.closest(".menuButton");
+
+        if (!isClickInsideMenu && !isClickOnButton) {
+            menu.style.display = "none";
+        }
+    });
+});
+
+function MainGame(){
+    document.getElementById("leaderboard-container").style.display = "none";
+    document.getElementById("question-root").style.display = "block";
+}
+/*************** sort ***************/
 function sortLeaderboard(data) {
     data.sort((a, b) => {
         if (b.score !== a.score) return b.score - a.score;
@@ -11,7 +40,7 @@ function sortLeaderboard(data) {
     });
 }
 
-/*************** RENDER ***************/
+/*************** render ***************/
 function renderLeaderboard(data) {
     const tbody = document.querySelector("#leaderboard tbody");
     if (!tbody) return;
@@ -71,63 +100,24 @@ function renderLeaderboard(data) {
     });
 }
 
-/*************** CONTROLS ***************/
-function createControls(data) {
-    const controlsDiv = document.getElementById("controls");
-    controlsDiv.innerHTML = "";
 
-    data.forEach((player, index) => {
-        const div = document.createElement("div");
 
-        div.innerHTML = `
-            <strong>${player.name}</strong><br>
-            <button onclick="addPoint(${index})">+ Point</button>
-            <button onclick="removePoint(${index})">- Point</button>
-            <button onclick="addCorrect(${index})">+ Correct</button>
-            <button onclick="removeCorrect(${index})">- Correct</button>
-            <hr>
-        `;
 
-        controlsDiv.appendChild(div);
-    });
-}
-
-/*************** LIVE UPDATES ***************/
-function addPoint(index) {
-    gameState.players[index].score++;
-    update();
-}
-
-function removePoint(index) {
-    gameState.players[index].score--;
-    update();
-}
-
-function addCorrect(index) {
-    gameState.players[index].correct++;
-    update();
-}
-
-function removeCorrect(index) {
-    gameState.players[index].correct--;
-    update();
-}
-
-/*************** SINGLE UPDATE PIPELINE ***************/
+/*************** Updates ***************/
 function update() {
-    renderLeaderboard(gameState.players);
-    createControls(gameState.players);
+    renderLeaderboard(window.gameState.players);
+
 }
 
-/*************** INIT ***************/
+/*************** Checks everything else is laoded before leaderboard ***************/
 function initLeaderBoard(playerData) {
     if (playerData) {
-        players = playerData;
+        window.gameState.players = playerData;
     }
 
     const table = document.querySelector("#leaderboard");
     if (!table) return;
 
-    renderLeaderboard(players);
-    createControls(players);
+    renderLeaderboard(window.gameState.players);
+
 }

@@ -267,6 +267,12 @@
 			}
 			
 			function Questions(){
+				if(typeof questions == "undefined"){
+					document.getElementById("questionText").textContent =
+					"questions.js did not load. Check file name/path.";
+					return;
+				}
+			
 				let shuffled = Random(questions);
 				game = shuffled.slice(0, value);
 				current = 0;

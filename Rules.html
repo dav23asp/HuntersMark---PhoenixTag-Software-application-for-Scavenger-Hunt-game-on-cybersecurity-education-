@@ -1,0 +1,163 @@
+<HTML>
+    <HEAD>
+    <TITLE>Rules Page</TITLE>
+		<STYLE>
+			*{
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: "Times New Roman", Times, serif;
+			}
+
+			body{
+				min-height: 100vh;
+				background: #f4f6f8;
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				padding: 24px;
+				overflow-y: auto;
+			}
+
+			.wrapper{
+				width: min(95vw, 1200px);
+				display: flex;
+				justify-content: center;
+			}
+
+			.card{
+				width: 100%;
+				max-width: 950px;
+				background: #ffffff;
+				border-radius: 14px;
+				box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+				padding: 34px;
+				text-align: center;
+			}
+
+			title{
+				font-size: 38px;
+				margin-bottom: 18px;
+			}
+
+			.intro{
+				font-size: 20px;
+				line-height: 1.5;
+				max-width: 800px;
+				margin: 0 auto 24px auto;
+			}
+
+			.section{
+				border: 1px solid #000;
+				border-radius: 10px;
+				background: #fafafa;
+				padding: 20px 26px;
+				margin: 18px auto;
+				max-width: 800px;
+				text-align: center;
+			}
+			.section h2{
+				text-align: center;
+				font-size: 26px;
+				margin-bottom: 14px;
+			}
+
+			.section ol,
+			.section ul{
+				list-style: none;
+				padding-left: 0;
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			.section li{
+				font-size: 18px;
+				line-height: 1.5;
+				margin-bottom: 12px;
+			}
+
+			.section p{
+				font-size: 18px;
+				line-height: 1.5;
+				text-align: center;
+			}
+
+			.button{
+				margin-top: 18px;
+				padding: 12px 24px;
+				font-size: 18px;
+				border: 1px solid #000;
+				border-radius: 8px;
+				background: #ffffff;
+				cursor: pointer;
+				transition: all 0.2s ease;
+			}
+
+			.button:hover{
+				background: #f2f2f2;
+				transform: scale(1.04);
+			}
+
+			.copyright{
+				margin-top: 22px;
+				font-size: 15px;
+				color: #555;
+			}
+		</STYLE>
+	</HEAD>
+	<BODY>
+		<div class = "wrapper">
+			<div class = "card">
+
+				<h1 class = "title">Welcome to Phoenix Tag Scavenger Hunt</h1>
+
+				<p class = "intro">
+					Phoenix Tag Scavenger Hunt features an interactive cybersecurity scavenger hunt 
+					that uses tools including: NFC tags, Google Maps, and challenging cybersecurity-based 
+					questions to help players learn all about secure software concepts and topics.
+				</p>
+
+				<div class = "section">
+					<h2>How does our Game Work?</h2>
+					<ol>
+						<li><strong>First create your account or log in.</strong> Your account will help track your score on the leaderboard.</li>
+						<li><strong>Start the game.</strong> The game opens Google Maps API and your first question.</li>
+						<li><strong>Answer 5 randomized questions.</strong> Questions are pulled at random from a list of topics.</li>
+						<li><strong>Earn points.</strong> Correct answers increase your score. Incorrect answers decrease your score.</li>
+						<li><strong>Check in with the zone.</strong> Correct answers shrink the zone.</li>
+						<li><strong>Find the final NFC tag.</strong> After 5 questions, scan the final NFC tag.</li>
+						<li><strong>Claim your prize.</strong> Press Claim to finish and view your leaderboard placement.</li>
+					</ol>
+				</div>
+
+				<div class = "section">
+					<h2>Rules</h2>
+					<ul>
+						<li>Your not aloud to skip directly to the final NFC tag.</li>
+						<li>You must answer all questions before claiming your prize.</li>
+						<li>You may only use your account to play.</li>
+						<li>Stay within safe areas and check your surroundings when playing.</li>
+						<li>You are to not remove, damage, or move any NFC tags.</li>
+					</ul>
+				</div>
+
+				<div class = "section">
+					<h2>Learning Goal</h2>
+					<p>
+						This game reinforces secure software engineering topics such as input validation,
+						least privilege, secure development practices, common software vulnerabilities, etc.
+					</p>
+				</div>
+
+				<button class = "button" onclick = "start()">Start Game</button>
+				<p class = "copyright">© 2026 Hunter's Mark. All rights reserved.</p>
+
+			</div>
+		</div>
+		<SCRIPT>
+			function start(){
+				window.location.href = "GoogleAPI.html";
+			}
+		</SCRIPT>
+	</BODY>
+</HTML>

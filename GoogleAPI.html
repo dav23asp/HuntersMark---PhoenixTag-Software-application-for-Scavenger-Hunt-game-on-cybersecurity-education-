@@ -1,0 +1,422 @@
+<HTML>
+    <HEAD>
+    <TITLE>Google Maps API</TITLE>
+		<STYLE>
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: "Times New Roman", Times, serif;
+		}
+
+		body{
+			min-height: 100vh;
+			background: #f4f6f8;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding-top: 24px;
+		}
+
+		.wrapper{
+			width: min(95vw, 1200px);
+			display: flex;
+			justify-content: center;
+		}
+
+		.card{
+			width: 100%;
+			max-width: 1100px;
+			background: #ffffff;
+			border-radius: 14px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			padding: 14px;
+			position: relative;
+		}
+
+		.hamburgerMenu{
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-bottom: 12px;
+		}
+
+		.menuButton{
+			width: 46px;
+			height: 46px;
+			border: 1px solid #000;
+			background: #ffffff;
+			cursor: pointer;
+			border-radius: 8px;
+			font-size: 24px;
+		}
+
+		.menuBody{
+			position: absolute;
+			top: 66px;
+			right: 14px;
+			width: 190px;
+			background: #ffffff;
+			border: 1px solid #000;
+			border-radius: 8px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+			display: none;
+			z-index: 10;
+			overflow: hidden;
+		}
+
+		.menuBody button{
+			width: 100%;
+			padding: 12px;
+			border: none;
+			border-bottom: 1px solid #d9d9d9;
+			background: #ffffff;
+			text-align: left;
+			cursor: pointer;
+			font-size: 16px;
+		}
+
+		.menuBody button:hover{
+			background: #f2f2f2;
+		}
+
+		#map{
+			width: 100%;
+			height: 500px;
+			border-radius: 10px;
+			overflow: hidden;
+			margin-bottom: 18px;
+		}
+
+		.questionInput{
+			border: 1px solid #000;
+			border-radius: 10px;
+			padding: 18px;
+			background: #fafafa;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+		}
+
+		.questionTitle{
+			font-size: 26px;
+			margin-bottom: 12px;
+		}
+
+		#questionText{
+			font-size: 21px;
+			margin-bottom: 14px;
+			line-height: 1.4;
+		}
+
+		.submit{
+			padding: 10px 16px;
+			border: 1px solid #000;
+			background: #ffffff;
+			border-radius: 6px;
+			cursor: pointer;
+			font-size: 16px;
+			margin: 6px;
+		}
+
+		.submit:hover{
+			background: #f2f2f2;
+		}
+
+		#result{
+			margin-top: 10px;
+			font-size: 18px;
+		}
+
+		#error{
+			color: #b00020;
+			text-align: center;
+			margin-top: 12px;
+			font-size: 0.95rem;
+		}
+		</STYLE>
+    </HEAD>
+	<BODY>
+		<div class = "wrapper">
+			<div class = "card">
+			
+				<div class = "hamburgerMenu">
+					<button class = "menuButton" onclick = "hamburger()">☰</button>
+				</div>
+				
+				<div id = "menuBody" class = "menuBody">
+					<button onclick = "Leaderboard()">Leaderboard</button>
+					<button onclick = "LogOut()">Log Out</button>
+				</div>
+				
+				<div id = "map"></div>
+				
+				<div class = "questionInput">
+					<div class = "questionTitle">Question</div>
+					<p id = "questionText">Loading...</p>
+					<div id = "answer"></div>
+					<p id = "result"></p>
+				</div>
+				<p id = "error"></p>
+			</div>
+		</div>
+		<SCRIPT>
+			const API_Key = "AIzaSyAdtYxLv1VmFvZKJ69pAszSyTSIbBkG8Zs"
+			const questions = [{
+				type: "tf",
+				question: "Address Space Layout Randomization (ASLR) prevents buffer overflows from occurring.",
+				answer: false
+			},{
+				type: "tf",
+				question: "A \"Black Box\" security test is performed by an auditor who has full access to the source code and internal design documents.",
+				answer: false
+			},{
+				type: "tf",
+				question: "Input validation should be performed on the client-side only to maximize performance and security.",
+				answer: false
+			},{
+				type: "tf",
+				question: "In a classic stack-based buffer overflow, the attacker's goal is often to overwrite the saved Return Address to redirect execution.",
+				answer: true
+			},{
+				type: "tf",
+				question: "Security should be treated as a \"bolt-on\" feature added during the final deployment phase of software development.",
+				answer: false
+			},{
+				type: "mc",
+				question: "Which stage of the Software Development Life Cycle (SDLC) is the most cost-effective for identifying and fixing security vulnerabilities?",
+				options: ["A) Implementation (Coding)", "B) Requirements & Design", "C) Testing & QA", "D) Maintenance"],
+				answer: 2
+			},{
+				type: "mc",
+				question: "In C programming, which of the following functions is considered \"unsafe\" because it does not check the bounds of the destination buffer?",
+				options: ["A) fgets()", "B) strncpy()", "C) gets()", "D) snprintf()"],
+				answer: 3
+			},{
+				type: "mc",
+				question: "What is the primary purpose of a \"Canary\" in the context of stack protection?",
+				options: ["A) To encrypt the data stored on the stack.", "B) To detect a buffer overflow before a function returns.", "C) To speed up the instruction pipeline.", "D) To manage heap allocation limits."],
+				answer: 2
+			},{
+				type: "mc",
+				question: "The \"Principle of Least Privilege\" (PoLP) suggests that:",
+				options: ["A) All users should have administrative access for efficiency.", "B) Users should only have the minimum access necessary to perform their job functions.", "C) Security should rely on the secrecy of the design (Security by Obscurity).", "D) Data should be encrypted only when it is being transmitted."],
+				answer: 2
+			},{
+				type: "mc",
+				question: "Which of the following is a hardware-level defense against executing malicious code stored in the data segment or stack?",
+				options: ["A) ASLR (Address Space Layout Randomization)", "B) DEP/NX (Data Execution Prevention / No-Execute bit)", "C) Input Validation", "D) Parameterized Queries"],
+				answer: 2}];
+			let game = [];
+			let current = 0;
+			let value = 5;
+			let map;
+			let circle;
+			let correct = 0;
+			
+			const Location = {lat: 28.1482, lng: -81.8485};
+			const FinalNFCTag = {lat: 28.15, lng: -81.8507};
+			const Radius = [500, 350, 250, 150, 80, 35];
+			
+			function Users(){
+				return JSON.parse(localStorage.getItem("user")) || [];
+			}
+			
+			function Save(user){
+				localStorage.setItem("user", JSON.stringify(user));
+			}
+			
+			function Current(){
+				return localStorage.getItem("currentUser");
+			}
+			
+			function LogIn(){
+				if(!Current()){
+					window.location.href = "LogIn.html";
+				}
+			}
+			
+			function hamburger(){
+				const menu = document.getElementById("menuBody");
+				
+				if(menu.style.display == "block"){
+					menu.style.display = "none";
+				}else{
+					menu.style.display = "block";
+				}
+			}
+			
+			function Leaderboard(){
+				window.location.href = "Leaderboard.html";
+			}
+		
+			function LogOut(){
+				localStorage.removeItem("currentUser");
+				window.location.href = "LogIn.html";
+			}
+			
+			async function GoogleMaps(){
+				return new Promise((resolve, reject) => {
+				if(window.google && window.google.maps){
+					resolve();
+					return;
+				}
+					const API = document.createElement("script");
+					API.src = `https://maps.googleapis.com/maps/api/js?key=${API_Key}&callback=Map_API`;
+					API.async = true;
+					API.defer = true;
+					API.onerror = () => reject(new Error("Failed to Load."));
+					document.head.appendChild(API);
+				});
+			}
+		
+			function Map_API(){
+				map = new google.maps.Map(document.getElementById("map"),{
+					center: FinalNFCTag,
+					zoom: 17,
+					zoomControl: true,
+					mapTypeControl: false,
+					streetViewControl: false,
+					fullscreenControl: false
+				});
+
+				circle = new google.maps.Circle({
+					strokeColor: "#FF0000",
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillColor: "#FF0000",
+					fillOpacity: 0.2,
+					map: map,
+					center: FinalNFCTag,
+					radius: Radius[0]
+				});
+
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(function(position){
+						const playerLocation = {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude
+						};
+
+						new google.maps.Marker({
+							position: playerLocation,
+							map: map,
+							title: "Your Location"
+						});
+					});
+				}
+			}
+			
+			function Questions(){
+				let shuffled = Random(questions);
+				game = shuffled.slice(0, value);
+				current = 0;
+				Display();
+			}
+			
+			function Random(a){
+				let copy = [...a];
+				for(let i = copy.length - 1; i > 0; i--){
+					const j = Math.floor(Math.random() * (i + 1));
+					[copy[i], copy[j]] = [copy[j], copy[i]];
+				}
+				return copy;
+			}
+			
+			function Display(){
+				const questionText = document.getElementById("questionText");
+				const answer = document.getElementById("answer");
+				const result = document.getElementById("result");
+				
+				if(current >= game.length){
+					Finish();
+					return;
+				}
+				
+				const q = game[current];
+				
+				questionText.textContent = q.question;
+				answer.innerHTML = "";
+				result.textContent  = "";
+				
+				if(q.type == "tf"){
+					answer.innerHTML = '<button class = "submit" onclick = "Answer(true)">True</button> <button class = "submit" onclick = "Answer(false)">False</button>';
+				}
+				
+				if(q.type == "mc"){
+					q.options.forEach((option, index) => {
+						answer.innerHTML += `<button class="submit" onclick="Answer(${index + 1})">${option}</button><br>`;
+					});
+				}
+			}
+			
+			function Answer(userAnswer){
+				const q = game[current];
+				let isCorrect = userAnswer == q.answer;
+				let users = Users();
+				let username = Current();
+				let user = users.find(user => user.username == username);
+				
+				if(!user){
+					alert("No User Found! Please Try Again!");
+					window.location.href = "LogIn.html";
+					return;
+				}
+				
+				if(isCorrect){
+					user.score += 10;
+					user.correct += 1;
+					Shrink();
+					
+					document.getElementById("result").textContent = "Correct! You got 10 points";
+				}else{
+					user.score -= 2;
+					if(user.score < 0){
+						user.score = 0;
+					}
+					document.getElementById("result").textContent = "Incorrect! You lost 2 points";
+				}
+				
+				user.answered += 1;
+				Save(users);
+				current++;
+
+				setTimeout(() => {
+					if(correct >= 5){
+						Finish();
+					}else{
+						if(current >= game.length){
+							game = Random(questions);
+							current = 0;
+						}
+
+						Display();
+					}
+				}, 900);
+			}
+			
+			function Finish(){
+				document.getElementById("questionText").textContent = "You answered 5 questions correctly! Now scan the final tag and claim your prize!";
+				document.getElementById("answer").innerHTML = "";
+				document.getElementById("result").textContent = "";
+			}
+			
+			function Shrink(){
+				if(circle){
+					correct++;
+
+					let radius = Radius[Math.min(correct, Radius.length - 1)];
+					circle.setRadius(radius);
+				}
+			}
+			
+			window.Map_API = Map_API;
+			GoogleMaps().catch((error) => {
+				document.getElementById("error").textContent = "Failed to Load! Please Try Again!";
+				console.error(error);
+			});
+			Questions();
+		</SCRIPT>
+	</BODY>
+</HTML>

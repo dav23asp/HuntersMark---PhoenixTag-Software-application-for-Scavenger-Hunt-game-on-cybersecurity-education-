@@ -1,0 +1,193 @@
+<HTML>
+	<HEAD>
+		<STYLE>
+		*{
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			font-family: "Times New Roman", Times, serif;
+		}
+		
+		body{
+			min-height: 100vh;
+			background: #f4f6f8;
+			display: flex;
+			justify-content: center;
+			align-items: flex-start;
+			padding-top: 24px;
+		}
+		
+		.wrapper{
+			width: min(95vw, 1200px);
+			display: flex;
+			justify-content: center;
+		}
+		
+		.card{
+			width: 100%;
+			max-width: 1100px;
+			background: #ffffff;
+			border-radius: 14px;
+			box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+			padding: 14px;
+			position: relative;
+		}
+
+		.hamburgerMenu{
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			margin-bottom: 12px;
+		}
+
+		.menuButton{
+			width: 46px;
+			height: 46px;
+			border: 1px solid #000;
+			background: #ffffff;
+			cursor: pointer;
+			border-radius: 8px;
+			font-size: 24px;
+		}
+
+		.menuBody{
+			position: absolute;
+			top: 66px;
+			right: 14px;
+			width: 220px;
+			background: #ffffff;
+			border: 1px solid #000;
+			border-radius: 8px;
+			box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+			display: none;
+			z-index: 10;
+			overflow: hidden;
+		}
+
+		.menuBody button{
+			width: 100%;
+			padding: 12px;
+			border: none;
+			border-bottom: 1px solid #d9d9d9;
+			background: #ffffff;
+			text-align: left;
+			cursor: pointer;
+			font-size: 16px;
+			font-family: "Times New Roman", Times, serif;
+		}
+
+		.menuBody button:last-child{
+			border-bottom: none;
+		}
+
+		.menuBody button:hover{
+			background: #f2f2f2;
+		}
+
+		.pageTitle{
+			font-size: 32px;
+			text-align: center;
+			margin-bottom: 24px;
+		}
+
+		#leaderboard{
+	        width: 100%;
+	        border-collapse: collapse;
+	        margin-bottom: 20px;
+	        background: #fafafa;
+        }
+
+        #leaderboard th,
+        #leaderboard td{
+	        border: 1px solid #000;
+	        padding: 12px;
+	        text-align: center;
+	        font-size: 18px;
+        }
+
+        #leaderboard th{
+	        background: #f2f2f2;
+        }
+		</STYLE>
+	</HEAD>
+	<BODY>
+		<div class = "wrapper">
+			<div class = "card">
+
+				<div class = "hamburgerMenu">
+					<button class = "menuButton" onclick = "hamburger()">☰</button>
+				</div>
+
+				<div id = "menuBody" class = "menuBody">
+					<button onclick = "Map()">Map</button>
+					<button onclick = "LogOut()">Log Out</button>
+				</div>
+
+				<h1 class = "pageTitle">Leaderboard</h1>
+
+				<table id = "leaderboard">
+					<thead>
+						<tr>
+							<th>Position</th>
+							<th>Players</th>
+							<th>Score</th>
+							<th>Correct Answers</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+		<SCRIPT>
+			function hamburger(){
+				const menu = document.getElementById("menuBody");
+				
+				if(menu.style.display == "block"){
+					menu.style.display = "none";
+				}else{
+					menu.style.display = "block";
+				}
+			}
+		
+			function Map(){
+				window.location.href = "GoogleAPI.html";
+			}
+		
+			function LogOut(){
+				localStorage.removeItem("currentUser");
+				window.location.href = "LogIn.html";
+			}
+		
+			function Users(){
+				return JSON.parse(localStorage.getItem("user")) || [];
+			}
+		
+			function Render(){
+				const tbody = document.querySelector("#leaderboard tbody");
+				let user = Users();
+			
+				user.sort((a, b ) => {
+					if(b.score !== a.score){
+						return b.score - a.score;
+					}
+					return b.correct - a.correct;
+				});
+				tbody.innerHTML = "";
+			
+				user.forEach((user, c) => {
+					const d = document.createElement("tr");
+					d.innerHTML = `
+						<td>${c + 1}</td>
+						<td>${user.username}</td>
+						<td>${user.score}</td>
+						<td>${user.correct}</td>
+						<td>${user.completed ? "Complete" : "In Progress"}</td>
+					`;
+					tbody.appendChild(d);
+				});
+			}
+			Render();
+		</SCRIPT>
+	</BODY>
+</HTML>

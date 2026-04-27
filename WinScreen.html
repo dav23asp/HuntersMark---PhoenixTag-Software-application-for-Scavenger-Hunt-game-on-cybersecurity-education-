@@ -1,6 +1,7 @@
 <HTML>
     <HEAD>
     <TITLE>You Win!</TITLE>
+		<!-- Cascaded Style Sheeet that sets our canvas on the scrren with fonts, texture and design -->
 		<STYLE>
 			*{
 				box-sizing: border-box;
@@ -115,22 +116,28 @@
 		<div class = "wrapper">
 			<div class = "card">
 				
+				<!-- Hamburger Menu -->
 				<div class = "hamburgerMenu">
 					<button class = "menuButton" onclick = "hamburger()">☰</button>
 				</div>
 				
+				<!-- Drop Down Buttons for Hamburger Menu -->
 				<div id = "menuBody" class = "menuBody">
 					<button onclick = "Map()">Map</button>
 					<button onclick = "Leaderboard()">Leaderboard</button>
 				</div>
 				
+				<!-- Win Message -->
 				<H1 class = "text">Congratulations!</H1>
 				<H1 class = "sub">Claim Your Prize!</H1>
 				
+				<!-- Button for Win Screen -->
 				<button class = "button" onclick = "Prize()">Claim</button>
 			</div>
 		</div>
 		<SCRIPT>
+		
+			//Hamburger Menu function for opening and closing
 			function hamburger(){
 				const menu = document.getElementById("menuBody");
 				
@@ -141,14 +148,17 @@
 				}
 			}
 			
+			//Sends us to the Google Map
 			function Map(){
 				window.location.href = "GoogleAPI.html";
 			}
 			
+			//Sends us to the Leaderboard
 			function Leaderboard(){
 				window.location.href = "Leaderboard.html";
 			}
 			
+			//Claim our Prize and sends us to Leaderboard
 			function Prize(){
 				window.location.href = "Leaderboard.html";
 			}

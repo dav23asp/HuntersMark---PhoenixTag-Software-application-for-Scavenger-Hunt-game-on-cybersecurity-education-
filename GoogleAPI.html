@@ -162,6 +162,8 @@
 			</div>
 		</div>
 		<SCRIPT>
+
+			//Makes it so the answers and questions can be accessed at anytime of the game.
 			const API_Key = "AIzaSyAdtYxLv1VmFvZKJ69pAszSyTSIbBkG8Zs"
 			const questions = [{
 				type: "tf",
@@ -230,13 +232,13 @@
 			function Current(){
 				return localStorage.getItem("currentUser");
 			}
-			
+				
 			function LogIn(){
 				if(!Current()){
 					window.location.href = "LogIn.html";
 				}
 			}
-			
+			//makes the hamburger menu so user can change between tabs
 			function hamburger(){
 				const menu = document.getElementById("menuBody");
 				
@@ -255,7 +257,8 @@
 				localStorage.removeItem("currentUser");
 				window.location.href = "LogIn.html";
 			}
-			
+
+				//calls in and displays the google api
 			async function GoogleMaps(){
 				return new Promise((resolve, reject) => {
 				if(window.google && window.google.maps){
@@ -307,14 +310,15 @@
 					});
 				}
 			}
-			
+
+
+				//calls in the questions and deals with the logic
 			function Questions(){
 				let shuffled = Random(questions);
 				game = shuffled.slice(0, value);
 				current = 0;
 				Display();
 			}
-			
 			function Random(a){
 				let copy = [...a];
 				for(let i = copy.length - 1; i > 0; i--){
@@ -395,13 +399,16 @@
 					}
 				}, 900);
 			}
-			
+
+
+				//if answered 5 questions, good enough to get the prize 
 			function Finish(){
 				document.getElementById("questionText").textContent = "You answered 5 questions correctly! Now scan the final tag and claim your prize!";
 				document.getElementById("answer").innerHTML = "";
 				document.getElementById("result").textContent = "";
 			}
-			
+
+				//shrinks the circle in the map
 			function Shrink(){
 				if(circle){
 					correct++;

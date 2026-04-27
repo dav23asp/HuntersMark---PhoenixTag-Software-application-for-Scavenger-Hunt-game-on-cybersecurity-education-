@@ -1,6 +1,7 @@
 <HTML>
     <HEAD>
     <TITLE>Log In</TITLE>
+		<!-- Cascaded Style Sheeet that sets our canvas on the scrren with fonts, texture and design -->
 		<STYLE>
 			*{
 				box-sizing: border-box;
@@ -109,26 +110,33 @@
 	<BODY>
 		<div class = "wrapper">
 			<div class = "card">
-
+				
+				<!-- Page Title -->
 				<h1 class = "pageTitle">Log In</h1>
-
+				
+				<!-- Login -->
 				<div class = "display">
+				
+					<!-- Username Input -->
 					<div class = "input">
 						<label for = "username">Username</label>
 						<input type = "text" id = "username">
 					</div>
-
+					
+					<!-- Password Input -->
 					<div class = "input">
 						<label for = "password">Password</label>
 						<input type = "password" id = "password">
 					</div>
-
+					
+					<!-- CAPTCHA Input -->
 					<div class = "input">
 						<label>CAPTCHA</label>
 						<p id = "captchaC"></p>
 						<input type = "text" id = "captchaI" placeholder = "Enter CAPTCHA">
 					</div>
-
+					
+					<!-- Buttons for LogIn and Account Creation -->
 					<button class = "loginButton" onclick = "LogIn()">Log In</button>
 					<button class = "loginButton" onclick = "Account()">Create an Account</button>
 					<p id = "message"></p>
@@ -137,42 +145,50 @@
 			</div>
 		</div>
 		<SCRIPT>
+		
+			//Grabs our Saved Users
 			function Users(){
 				return JSON.parse(localStorage.getItem("user")) || [];
 			}
 			
+			//Saves the Users back to the Storage
 			function Saves(user){
 				localStorage.setItem("user", JSON.stringify(user));
 			}
 			
+			//Creates a New Account
 			function Account(){
 				const username = document.getElementById("username").value.trim();
 				const password = document.getElementById("password").value.trim();
 				const message = document.getElementById("message");
 				
+				//Throws Error if username and password boxes are empty
 				if(username == "" || password == ""){
 					message.textContent = "Invalid! Please Try Again!";
 					return;
 				}
 				
 				let user = Users();
-				
+				//Stops Duplicates from Occuring
 				if(user.some(user => user.username == username)){
 					message.textContent = "Account Exists! Please Try Again!";
 					return;
 				}
 				
+				//Adds a new User and Saves them to a List
 				user.push({username: username, password: password, score: 0, correct: 0, answered: 0, completed: false});
 				Saves(user);
 				message.textContent = "Account Created! Please Log In!";
 			}
 			
+			//Logs In an already existing User
 			function LogIn(){
 				const username = document.getElementById("username").value.trim();
 				const password = document.getElementById("password").value.trim();
 				const captchaInput = document.getElementById("captchaI").value.trim().toUpperCase();
 				const message = document.getElementById("message");
 				
+				//CAPTCHA Check
 				if(captchaInput != captcha){
 					message.textContent = "Incorrect CAPTCHA! Please Try Again!";
 					Captcha();
@@ -180,28 +196,35 @@
 				}
 				
 				let user = Users();
+				//Finds the username and password
 				let account = user.find(account => account.username == username && account.password == password);
+				//Checks if the Account Exists
 				if(!account){
 					message.textContent = "Invalid! Please Try Again!";
 					return;
 				}
 				
+				//Saves and moves to the Rules Page
 				localStorage.setItem("currentUser", username);
 				window.location.href = "Rules.html"
 			}
 			
+			//Stores our CAPTCHA
 			let captcha = "";
-
+			//Generates CAPTCHA at Random
 			function Captcha(){
 				const characters = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 				captcha = "";
-
+				
+				//Makes the CAPTCHA 5 characters long
 				for(let i = 0; i < 5; i++){
 					captcha += characters.charAt(Math.floor(Math.random() * characters.length));
 				}
 
 				document.getElementById("captchaC").textContent = captcha;
 			}
+			
+			//Creates CAPTCHA when page is loaded
 			Captcha();
 		</SCRIPT>
 	</BODY>
